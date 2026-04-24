@@ -1,0 +1,52 @@
+[
+  {
+    "instruction": "Explain what instruction fine-tuning is and why it is used in large language models.",
+    "input": "",
+    "output": "Instruction fine-tuning is a supervised training stage where a pretrained language model is trained on instruction–response pairs. The goal is to teach the model to follow human instructions reliably across a wide range of tasks, improving usefulness, controllability, and alignment with user intent."
+  },
+  {
+    "instruction": "Describe the role of the transformer architecture in modern large language models.",
+    "input": "",
+    "output": "The transformer architecture enables large language models to process sequences efficiently using self-attention rather than recurrence. It allows the model to capture long-range dependencies, scale effectively with data and parameters, and generate coherent text token by token."
+  },
+  {
+    "instruction": "What is self-attention and how does it help language models understand context?",
+    "input": "",
+    "output": "Self-attention is a mechanism that allows each token in a sequence to weigh the importance of all other tokens when forming its representation. This enables language models to incorporate contextual information from the entire input sequence when predicting or generating text."
+  },
+  {
+    "instruction": "Explain the difference between pretraining and fine-tuning in large language models.",
+    "input": "",
+    "output": "Pretraining teaches a model general language patterns using large amounts of unlabeled text through next-token prediction. Fine-tuning adapts the pretrained model to specific tasks or behaviors using smaller, labeled datasets such as instruction–response pairs or classification labels."
+  },
+  {
+    "instruction": "What problem does causal attention solve in autoregressive language models?",
+    "input": "",
+    "output": "Causal attention prevents a model from attending to future tokens during training or generation. This ensures that each token prediction depends only on previous context, preserving the autoregressive property required for coherent text generation."
+  },
+  {
+    "instruction": "Describe the purpose of positional embeddings in transformer-based language models.",
+    "input": "",
+    "output": "Positional embeddings provide information about token order in a sequence. Since self-attention is position-agnostic, positional embeddings are added to token embeddings to allow the model to understand sequence structure and word order."
+  },
+  {
+    "instruction": "What is multi-head attention and why is it used instead of single-head attention?",
+    "input": "",
+    "output": "Multi-head attention uses multiple attention heads in parallel, each focusing on different aspects of the input. This allows the model to capture diverse relationships simultaneously, improving representational power compared to a single attention mechanism."
+  },
+  {
+    "instruction": "Explain the role of layer normalization in training deep transformer models.",
+    "input": "",
+    "output": "Layer normalization stabilizes training by normalizing activations across the feature dimension. It reduces internal covariate shift, improves gradient flow, and enables deeper models to train more reliably."
+  },
+  {
+    "instruction": "What is a feed-forward network in a transformer block and why is it needed?",
+    "input": "",
+    "output": "The feed-forward network applies nonlinear transformations independently to each token representation after attention. It increases model capacity by expanding and contracting the embedding space, enabling more complex feature learning."
+  },
+  {
+    "instruction": "Explain why instruction datasets typically exclude rejected or incorrect answers during supervised fine-tuning.",
+    "input": "",
+    "output": "Supervised instruction fine-tuning relies on demonstrating correct behavior through high-quality examples. Including rejected answers can confuse the learning signal, whereas preference-based methods like DPO or RLHF explicitly model comparisons."
+  }
+]

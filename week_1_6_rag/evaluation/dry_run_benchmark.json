@@ -1,0 +1,66 @@
+{
+  "num_prompts": 10,
+  "average_accuracy": 0.45,
+  "results": [
+    {
+      "prompt": "Under Basel IV, under what conditions is a 0% risk weight applied to a sovereign counterparty? Please specify the distinction between local and foreign currency.",
+      "model_answer": "For sovereign counterparties (central governments), a 0% risk weight may be applied to exposures that are denominated in local currency and are recognized by the regulator. For exposures denominated in foreign currency, the sovereign floor rule applies, and a higher risk weight may be assigned depending on country risk and the rating status.",
+      "accuracy": 1.0,
+      "diagnostic_note": "covered expected concepts"
+    },
+    {
+      "prompt": "In the CRM_GUARANTEE_BSL4 process, what is the approach to including collateral in the ERD calculation? Please explain the common practice across banks.",
+      "model_answer": "For collateral, a single ERD calculation can be performed by using a combination of two or more cascades (e.g., a cascade that includes a higher risk and a lower risk), and a higher risk may be assigned depending on country risk and the rating status.",
+      "accuracy": 0.3333,
+      "diagnostic_note": "missed concept: post-ERD allocation logic"
+    },
+    {
+      "prompt": "What does the EXP_FLG field represent in exposure tables? Explain the impact of values 1 and 0 on risk calculation.",
+      "model_answer": "EXP_FLG is a function that takes an average value from a table to output its own data, whereas EXP_FLG is used to calculate the actual risk for future exposures.",
+      "accuracy": 0.3333,
+      "diagnostic_note": "missed concept: exp_flg = 0 collateral/mitigant"
+    },
+    {
+      "prompt": "How are maturity and risk weight determined in repo transactions? What method is used if the original maturity is not available?",
+      "model_answer": "For repo transactions, maturity is calculated by multiplying the number of days that are past the date the initial maturity. For repo transactions, maturity is calculated by dividing the day's average daily value with the median daily value.",
+      "accuracy": 0.3333,
+      "diagnostic_note": "missed concept: repo date window"
+    },
+    {
+      "prompt": "What is the risk weight multiplier applied to retail customers under Basel IV, and under what circumstances is it applied?",
+      "model_answer": "For retail customers with a higher risk weight, the floor-to-ceiling rule applies, and a higher risk weight may be assigned depending on country risk and the rating status.",
+      "accuracy": 0.3333,
+      "diagnostic_note": "missed concept: 1.5 multiplier"
+    },
+    {
+      "prompt": "Why is 'future collateral (fc)' not considered in the CRM Value calculation? Which value is ultimately used?",
+      "model_answer": "Future collateral (fc) is a derivative of a specific reference type that is assigned to future collateral. It can be applied to all types of credit and other collateral, including credit-backed securities.",
+      "accuracy": 0.3333,
+      "diagnostic_note": "missed concept: regulatory reason"
+    },
+    {
+      "prompt": "How is the risk weight treated for a foreign currency repo transaction of a bank with missing rating information?",
+      "model_answer": "For banks that are not recognized by the regulator, a higher risk weight may be assigned depending on country risk and the rating status. For example, a lower risk weight may be assigned based on country risk and the rating status.",
+      "accuracy": 0.3333,
+      "diagnostic_note": "missed currency distinction"
+    },
+    {
+      "prompt": "What is the purpose of the SIM-FLAG field and why is it critical in the production (prod) process?",
+      "model_answer": "SIM-FLAG is a function that stores the value for the first time, then returns the result. It's important to note that this function can be used by any production environment or application as well.",
+      "accuracy": 0.5,
+      "diagnostic_note": "missed concept: prevent contamination of prod outputs"
+    },
+    {
+      "prompt": "What do Currency Type values 'A' and 'D' represent? What are their differences in risk calculation?",
+      "model_answer": "Currency Type Values (C) represent the average daily trading day for a specific type of currency. In contrast, C represents daily trade day-to-day, whereas D represents daily trade day-to-day.",
+      "accuracy": 0.3333,
+      "diagnostic_note": "missed concept: D as daily exchange rate"
+    },
+    {
+      "prompt": "Why are COUNTERPARTY_RK or ENTITY_ID critical fields when joining exposure and CRM tables?",
+      "model_answer": "COUNTERPARTY_RK is the primary reason why we use CRM tables to join exposures, whereas ENTITY_ID is used for grouping data into groups.",
+      "accuracy": 0.6667,
+      "diagnostic_note": "missed concept: risk/provisioning impact"
+    }
+  ]
+}
