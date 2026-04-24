@@ -1,0 +1,23 @@
+[
+  {"id": "q01", "question": "Explain the difference between precision and recall, and when you would prioritize each."},
+  {"id": "q02", "question": "What is overfitting in machine learning? Give two practical ways to reduce it."},
+  {"id": "q03", "question": "Write a short checklist for safely deploying a web API to production."},
+  {"id": "q04", "question": "How does a hash table work at a high level, and what causes collisions?"},
+  {"id": "q05", "question": "Compare REST and GraphQL. Provide one scenario where GraphQL is a clear win and one where REST is simpler."},
+  {"id": "q06", "question": "What is the purpose of unit tests vs integration tests? Give an example of each for a login flow."},
+  {"id": "q07", "question": "Explain how TLS protects data in transit, in plain language."},
+  {"id": "q08", "question": "You have a slow SQL query. List a step-by-step approach to diagnose and speed it up."},
+  {"id": "q09", "question": "Explain what a Docker container is and how it differs from a virtual machine."},
+  {"id": "q10", "question": "What is a vector database, and why is it useful for semantic search?"},
+  {"id": "q11", "question": "Describe the core idea of Retrieval-Augmented Generation (RAG) and one common failure mode."},
+  {"id": "q12", "question": "A customer churn model performs well offline but poorly in production. List likely reasons and fixes."},
+  {"id": "q13", "question": "Explain the bias-variance tradeoff with a simple analogy."},
+  {"id": "q14", "question": "Design an API rate-limiting strategy for a public endpoint. Mention tradeoffs."},
+  {"id": "q15", "question": "What are the key differences between symmetric and asymmetric encryption? Give a real-world use case for each."},
+  {"id": "q16", "question": "Create a small plan to migrate a monolith to microservices with minimal risk."},
+  {"id": "q17", "question": "Explain what observability means and name three signals you would monitor for a backend service."},
+  {"id": "q18", "question": "How would you evaluate an LLM-based customer support bot before launch? Provide metrics and a test plan."},
+  {"id": "q19", "question": "Explain what prompt injection is in LLM apps and list three mitigations."},
+  {"id": "q20", "question": "Given a new product idea, outline a lightweight experiment to validate demand in one week."}
+]
+
