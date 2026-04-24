@@ -1,0 +1,37 @@
+# env files
+.env
+.env.*
+*.env
+**/.env
+**/.env.*
+
+# all virtual environments (root + subfolders)
+.venv/
+venv/
+env/
+ENV/
+**/.venv/
+**/venv/
+**/env/
+**/ENV/
+
+# caches
+__pycache__/
+**/__pycache__/
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+
+# generated artifacts (adjust if you want to keep some)
+outputs/
+**/outputs/
+logs/
+**/logs/
+*.jsonl
+*.pdf
+*.png
+*.jpg
+*.jpeg
+*.safetensors
+*.bin
+*.pt
+*.pth
