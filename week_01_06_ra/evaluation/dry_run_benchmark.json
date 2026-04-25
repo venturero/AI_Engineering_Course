@@ -1,66 +1,66 @@
 {
   "num_prompts": 10,
-  "average_accuracy": 0.45,
+  "average_accuracy": 1.0,
   "results": [
     {
-      "prompt": "Under Basel IV, under what conditions is a 0% risk weight applied to a sovereign counterparty? Please specify the distinction between local and foreign currency.",
-      "model_answer": "For sovereign counterparties (central governments), a 0% risk weight may be applied to exposures that are denominated in local currency and are recognized by the regulator. For exposures denominated in foreign currency, the sovereign floor rule applies, and a higher risk weight may be assigned depending on country risk and the rating status.",
+      "prompt": "Explain what instruction fine-tuning is and why it is used in large language models.",
+      "model_answer": "Instruction fine-tuning is a supervised training stage where a pretrained language model is trained on instruction–response pairs. The goal is to teach the model to follow human instructions reliably across a wide range of tasks, improving usefulness, controllability, and alignment with user intent.",
       "accuracy": 1.0,
       "diagnostic_note": "covered expected concepts"
     },
     {
-      "prompt": "In the CRM_GUARANTEE_BSL4 process, what is the approach to including collateral in the ERD calculation? Please explain the common practice across banks.",
-      "model_answer": "For collateral, a single ERD calculation can be performed by using a combination of two or more cascades (e.g., a cascade that includes a higher risk and a lower risk), and a higher risk may be assigned depending on country risk and the rating status.",
-      "accuracy": 0.3333,
-      "diagnostic_note": "missed concept: post-ERD allocation logic"
+      "prompt": "Describe the role of the transformer architecture in modern large language models.",
+      "model_answer": "The transformer architecture enables large language models to process sequences efficiently using self-attention rather than recurrence. It allows the model to capture long-range dependencies, scale effectively with data and parameters, and generate coherent text token by token.",
+      "accuracy": 1.0,
+      "diagnostic_note": "covered expected concepts"
     },
     {
-      "prompt": "What does the EXP_FLG field represent in exposure tables? Explain the impact of values 1 and 0 on risk calculation.",
-      "model_answer": "EXP_FLG is a function that takes an average value from a table to output its own data, whereas EXP_FLG is used to calculate the actual risk for future exposures.",
-      "accuracy": 0.3333,
-      "diagnostic_note": "missed concept: exp_flg = 0 collateral/mitigant"
+      "prompt": "What is self-attention and how does it help language models understand context?",
+      "model_answer": "Self-attention is a mechanism that allows each token in a sequence to weigh the importance of all other tokens when forming its representation. This enables language models to incorporate contextual information from the entire input sequence when predicting or generating text.",
+      "accuracy": 1.0,
+      "diagnostic_note": "covered expected concepts"
     },
     {
-      "prompt": "How are maturity and risk weight determined in repo transactions? What method is used if the original maturity is not available?",
-      "model_answer": "For repo transactions, maturity is calculated by multiplying the number of days that are past the date the initial maturity. For repo transactions, maturity is calculated by dividing the day's average daily value with the median daily value.",
-      "accuracy": 0.3333,
-      "diagnostic_note": "missed concept: repo date window"
+      "prompt": "Explain the difference between pretraining and fine-tuning in large language models.",
+      "model_answer": "Pretraining teaches a model general language patterns using large amounts of unlabeled text through next-token prediction. Fine-tuning adapts the pretrained model to specific tasks or behaviors using smaller, labeled datasets such as instruction–response pairs or classification labels.",
+      "accuracy": 1.0,
+      "diagnostic_note": "covered expected concepts"
     },
     {
-      "prompt": "What is the risk weight multiplier applied to retail customers under Basel IV, and under what circumstances is it applied?",
-      "model_answer": "For retail customers with a higher risk weight, the floor-to-ceiling rule applies, and a higher risk weight may be assigned depending on country risk and the rating status.",
-      "accuracy": 0.3333,
-      "diagnostic_note": "missed concept: 1.5 multiplier"
+      "prompt": "What problem does causal attention solve in autoregressive language models?",
+      "model_answer": "Causal attention prevents a model from attending to future tokens during training or generation. This ensures that each token prediction depends only on previous context, preserving the autoregressive property required for coherent text generation.",
+      "accuracy": 1.0,
+      "diagnostic_note": "covered expected concepts"
     },
     {
-      "prompt": "Why is 'future collateral (fc)' not considered in the CRM Value calculation? Which value is ultimately used?",
-      "model_answer": "Future collateral (fc) is a derivative of a specific reference type that is assigned to future collateral. It can be applied to all types of credit and other collateral, including credit-backed securities.",
-      "accuracy": 0.3333,
-      "diagnostic_note": "missed concept: regulatory reason"
+      "prompt": "Describe the purpose of positional embeddings in transformer-based language models.",
+      "model_answer": "Positional embeddings provide information about token order in a sequence. Since self-attention is position-agnostic, positional embeddings are added to token embeddings to allow the model to understand sequence structure and word order.",
+      "accuracy": 1.0,
+      "diagnostic_note": "covered expected concepts"
     },
     {
-      "prompt": "How is the risk weight treated for a foreign currency repo transaction of a bank with missing rating information?",
-      "model_answer": "For banks that are not recognized by the regulator, a higher risk weight may be assigned depending on country risk and the rating status. For example, a lower risk weight may be assigned based on country risk and the rating status.",
-      "accuracy": 0.3333,
-      "diagnostic_note": "missed currency distinction"
+      "prompt": "What is multi-head attention and why is it used instead of single-head attention?",
+      "model_answer": "Multi-head attention uses multiple attention heads in parallel, each focusing on different aspects of the input. This allows the model to capture diverse relationships simultaneously, improving representational power compared to a single attention mechanism.",
+      "accuracy": 1.0,
+      "diagnostic_note": "covered expected concepts"
     },
     {
-      "prompt": "What is the purpose of the SIM-FLAG field and why is it critical in the production (prod) process?",
-      "model_answer": "SIM-FLAG is a function that stores the value for the first time, then returns the result. It's important to note that this function can be used by any production environment or application as well.",
-      "accuracy": 0.5,
-      "diagnostic_note": "missed concept: prevent contamination of prod outputs"
+      "prompt": "Explain the role of layer normalization in training deep transformer models.",
+      "model_answer": "Layer normalization stabilizes training by normalizing activations across the feature dimension. It reduces internal covariate shift, improves gradient flow, and enables deeper models to train more reliably.",
+      "accuracy": 1.0,
+      "diagnostic_note": "covered expected concepts"
     },
     {
-      "prompt": "What do Currency Type values 'A' and 'D' represent? What are their differences in risk calculation?",
-      "model_answer": "Currency Type Values (C) represent the average daily trading day for a specific type of currency. In contrast, C represents daily trade day-to-day, whereas D represents daily trade day-to-day.",
-      "accuracy": 0.3333,
-      "diagnostic_note": "missed concept: D as daily exchange rate"
+      "prompt": "What is a feed-forward network in a transformer block and why is it needed?",
+      "model_answer": "The feed-forward network applies nonlinear transformations independently to each token representation after attention. It increases model capacity by expanding and contracting the embedding space, enabling more complex feature learning.",
+      "accuracy": 1.0,
+      "diagnostic_note": "covered expected concepts"
     },
     {
-      "prompt": "Why are COUNTERPARTY_RK or ENTITY_ID critical fields when joining exposure and CRM tables?",
-      "model_answer": "COUNTERPARTY_RK is the primary reason why we use CRM tables to join exposures, whereas ENTITY_ID is used for grouping data into groups.",
-      "accuracy": 0.6667,
-      "diagnostic_note": "missed concept: risk/provisioning impact"
+      "prompt": "Explain why instruction datasets typically exclude rejected or incorrect answers during supervised fine-tuning.",
+      "model_answer": "Supervised instruction fine-tuning relies on demonstrating correct behavior through high-quality examples. Including rejected answers can confuse the learning signal, whereas preference-based methods like DPO or RLHF explicitly model comparisons.",
+      "accuracy": 1.0,
+      "diagnostic_note": "covered expected concepts"
     }
   ]
 }

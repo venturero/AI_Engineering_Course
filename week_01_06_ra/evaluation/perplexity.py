@@ -24,27 +24,27 @@ import torch
 
 
 def get_unseen_eval_texts() -> list[str]:
-    """Return a small unseen regulatory-style text set for perplexity evaluation."""
+    """Return a small unseen LLM/GenAI-style text set for perplexity evaluation."""
     return [
         (
-            "Basel capital rules require banks to map counterparty exposures to risk weights "
-            "using prescribed approaches and supervisory constraints."
+            "Large language models are trained with self-supervised objectives such as "
+            "next-token prediction, then adapted with supervised fine-tuning on curated instructions."
         ),
         (
-            "For sovereign exposures, currency denomination and jurisdictional treatment can "
-            "change whether the lowest risk bucket is available."
+            "Transformer blocks interleave multi-head attention with position-wise feed-forward "
+            "layers, using residual connections and normalization to stabilize optimization."
         ),
         (
-            "Credit risk mitigation recognizes eligible collateral and guarantees, but only "
-            "when legal enforceability and operational standards are satisfied."
+            "Causal masking ensures each position only attends to prior tokens, which preserves "
+            "the autoregressive factorization used during both training and sampling."
         ),
         (
-            "Repo and securities financing transactions require maturity-sensitive treatment, "
-            "especially where short-term and long-term categories differ in capital impact."
+            "Retrieval-augmented generation grounds answers in external documents, reducing "
+            "hallucination when factual updates are required beyond the model cutoff."
         ),
         (
-            "Production risk engines separate simulation runs from official runs so that test "
-            "data does not contaminate audited regulatory outputs."
+            "Alignment methods such as preference optimization or reinforcement learning from "
+            "human feedback adjust behavior to better match safety and usefulness constraints."
         ),
     ]
 

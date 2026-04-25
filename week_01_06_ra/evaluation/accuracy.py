@@ -1,17 +1,17 @@
 """
-Semantic instruction-following accuracy for domain-specific regulatory QA.
+Semantic instruction-following accuracy for domain-specific LLM / GenAI QA.
 
 What this metric measures:
 - Whether generated answers cover required domain concepts for each prompt.
 
 When useful:
 - Assessing instruction quality where wording can vary but meaning must be correct.
-- Validating policy/regulation answers beyond surface text overlap.
+- Validating technical answers about transformers, training, and alignment beyond surface overlap.
 
 How to read scores:
 - Higher is better (0.0 to 1.0).
 - Good score: most required concepts are present with correct semantic cues.
-- Bad score: missing key regulatory distinctions despite fluent language.
+- Bad score: missing key technical distinctions despite fluent language.
 """
 
 from __future__ import annotations
@@ -35,55 +35,71 @@ def _normalize(text: str) -> str:
 
 def _concepts() -> dict[str, dict[str, list[str]]]:
     return {
-        "Under Basel IV, under what conditions is a 0% risk weight applied to a sovereign counterparty? Please specify the distinction between local and foreign currency.": {
-            "local currency condition": [r"\blocal currency\b", r"\bdomestic currency\b"],
-            "foreign currency distinction": [r"\bforeign currency\b", r"\bnon[- ]local currency\b"],
-            "sovereign floor / elevated treatment": [r"\bsovereign floor\b", r"\bhigher risk weight\b", r"\belevated risk\b"],
-            "risk weight context": [r"\brisk weight\b", r"\b0%\b"],
+        "Explain what instruction fine-tuning is and why it is used in large language models.": {
+            "supervised instruction-response training": [
+                r"\bsupervised\b",
+                r"\binstruction[-– ]response\b",
+                r"\binstruction\b.*\btrain",
+            ],
+            "goal: follow instructions / usefulness": [
+                r"\bfollow\b",
+                r"\busability\b",
+                r"\bcontrollability\b",
+                r"\balignment\b",
+                r"\buseful\b",
+            ],
+            "pretrained model as starting point": [r"\bpretrain\w*\b", r"\bpre-trained\b", r"\bbase model\b", r"\blanguage model\b"],
         },
-        "In the CRM_GUARANTEE_BSL4 process, what is the approach to including collateral in the ERD calculation? Please explain the common practice across banks.": {
-            "collateral included for ERD context": [r"\bcollateral\b", r"\berd\b"],
-            "post-ERD allocation logic": [r"\bpost[- ]erd\b", r"\bafter erd\b", r"\bdistribut\w+\b"],
-            "common banking practice mention": [r"\bcommon practice\b", r"\bmajority\b", r"\bmost banks\b"],
+        "Describe the role of the transformer architecture in modern large language models.": {
+            "self-attention vs recurrence": [r"\bself-attention\b", r"\battention\b", r"\brecurr\w*\b", r"\brnn\b"],
+            "long-range dependencies / context": [r"\blong[- ]range\b", r"\bdependenc\w*\b", r"\bcontext\b"],
+            "scalability / sequence efficiency": [r"\bscal\w+\b", r"\befficien\w*\b", r"\bparallel\b"],
         },
-        "What does the EXP_FLG field represent in exposure tables? Explain the impact of values 1 and 0 on risk calculation.": {
-            "exp_flg = 1 primary exposure": [r"\bexp_flg\b", r"\b1\b", r"\bprimary\b", r"\bmain\b"],
-            "exp_flg = 0 collateral/mitigant": [r"\b0\b", r"\bcollateral\b", r"\bmitigant\b"],
-            "risk impact distinction": [r"\breduce risk\b", r"\brwa\b", r"\bmain source of risk\b"],
+        "What is self-attention and how does it help language models understand context?": {
+            "tokens attend to other tokens": [r"\btoken\b", r"\battend\b", r"\bweigh\w*\b", r"\bimportance\b"],
+            "contextual representation": [r"\bcontext\w*\b", r"\brepresentation\b", r"\bsequence\b"],
+            "full input / pairwise": [r"\ball\b", r"\bentire\b", r"\beach\b", r"\bother tokens\b"],
         },
-        "How are maturity and risk weight determined in repo transactions? What method is used if the original maturity is not available?": {
-            "repo date window": [r"\brepo inception\b", r"\brepo maturity\b", r"\bdifference between\b"],
-            "fallback when original maturity missing": [r"\bif .*maturity.*not available\b", r"\bfallback\b", r"\bcalculated\b"],
-            "short-term vs long-term classification": [r"\bshort[- ]term\b", r"\blong[- ]term\b", r"\bclassification\b"],
+        "Explain the difference between pretraining and fine-tuning in large language models.": {
+            "pretraining: unlabeled / next-token": [r"\bpretrain\w*\b", r"\bunlabeled\b", r"\bnext[- ]token\b", r"\blarge\b.*\btext\b"],
+            "fine-tuning: smaller labeled / adaptation": [r"\bfine[- ]tun\w*\b", r"\blabeled\b", r"\bsmaller\b", r"\badapt\b"],
+            "task or behavior specialization": [r"\btask\b", r"\binstruction\b", r"\bclassif\w*\b", r"\bbehavior\b"],
         },
-        "What is the risk weight multiplier applied to retail customers under Basel IV, and under what circumstances is it applied?": {
-            "retail scope": [r"\bretail\b"],
-            "1.5 multiplier": [r"\b1\.5\b", r"\bmultiplier\b"],
-            "conditional application": [r"\bunder certain conditions\b", r"\bconservative\b", r"\bcircumstances\b"],
+        "What problem does causal attention solve in autoregressive language models?": {
+            "blocks future tokens": [r"\bfuture\b", r"\bnot.*see\b", r"\bmask\b", r"\bprevent\b"],
+            "autoregressive property": [r"\bautoregressive\b", r"\btoken by token\b", r"\bgenerat\w*\b"],
+            "depends only on past context": [r"\bprevious\b", r"\bpast\b", r"\bearlier\b", r"\bonly\b"],
         },
-        "Why is 'future collateral (fc)' not considered in the CRM Value calculation? Which value is ultimately used?": {
-            "future collateral excluded": [r"\bfuture collateral\b", r"\bnot considered\b", r"\bexcluded\b"],
-            "regulatory reason": [r"\bregulator\w*\b", r"\bregulatory rules\b", r"\bnot allowed\b"],
-            "final value usage": [r"\bcrm value\b", r"\bas[- ]is\b", r"\bcrm value fc = crm value\b"],
+        "Describe the purpose of positional embeddings in transformer-based language models.": {
+            "encode order / position": [r"\bposition\w*\b", r"\border\b", r"\bsequence\b"],
+            "attention is permutation-sensitive fix": [r"\bposition[- ]agnostic\b", r"\bpermutation\b", r"\borderless\b", r"\bwithout\b.*\border\b"],
+            "added to token embeddings": [r"\badd\w*\b", r"\btoken embedd\w*\b", r"\bembedd\w*\b"],
         },
-        "How is the risk weight treated for a foreign currency repo transaction of a bank with missing rating information?": {
-            "foreign currency repo context": [r"\bforeign currency\b", r"\brepo\b"],
-            "missing rating implication": [r"\bmissing rating\b", r"\bno rating\b"],
-            "sovereign floor/country risk conservative treatment": [r"\bsovereign floor\b", r"\bcountry risk\b", r"\b100%\b", r"\bhigher risk\b"],
+        "What is multi-head attention and why is it used instead of single-head attention?": {
+            "multiple parallel heads": [r"\bmulti[- ]head\b", r"\bparallel\b", r"\bseveral\b.*\bhead\b"],
+            "diverse relationships / subspaces": [r"\bdiverse\b", r"\bdifferent\b.*\baspect\b", r"\brelationship\b"],
+            "stronger than single head": [r"\bcompared\b", r"\bsingle[- ]head\b", r"\bmore\b.*\bcapacity\b", r"\brepresentational\b"],
         },
-        "What is the purpose of the SIM-FLAG field and why is it critical in the production (prod) process?": {
-            "simulation vs production distinction": [r"\bsim[- ]flag\b", r"\bsimulation\b", r"\bproduction\b"],
-            "prevent contamination of prod outputs": [r"\bprevent\b", r"\bproduction output\b", r"\baccident\w+\b"],
+        "Explain the role of layer normalization in training deep transformer models.": {
+            "stabilizes training": [r"\bstabil\w*\b", r"\btrain\w*\b"],
+            "normalize activations / features": [r"\bnorm\w+\b", r"\bactivat\w*\b", r"\bfeature\b"],
+            "gradients / deeper networks": [r"\bgradient\b", r"\bdeep\w*\b", r"\bcovariate\b"],
         },
-        "What do Currency Type values 'A' and 'D' represent? What are their differences in risk calculation?": {
-            "A as average exchange rate": [r"\bcurrency type\b", r"\b'a'\b", r"\baverage exchange rate\b"],
-            "D as daily exchange rate": [r"\b'd'\b", r"\bdaily exchange rate\b"],
-            "calculation usage distinction": [r"\breference date\b", r"\bspecific day\b", r"\bdifference\b"],
+        "What is a feed-forward network in a transformer block and why is it needed?": {
+            "per-token MLP after attention": [r"\bfeed[- ]forward\b", r"\bmlp\b", r"\bafter attention\b", r"\beach token\b"],
+            "nonlinearity / capacity": [r"\bnonlinear\b", r"\bcapacity\b", r"\btransform\b"],
+            "expand and contract hidden dim": [
+                r"\bexpand\w*\b",
+                r"\bcontract\w*\b",
+                r"\bdimension\b",
+                r"\bhidden\b",
+                r"\bembedding space\b",
+            ],
         },
-        "Why are COUNTERPARTY_RK or ENTITY_ID critical fields when joining exposure and CRM tables?": {
-            "primary key/customer uniqueness": [r"\bcounterparty_rk\b", r"\bentity_id\b", r"\bprimary key\b", r"\buniqueness\b"],
-            "join correctness": [r"\bjoin\b", r"\bincorrect or missing\b", r"\bduplication\b"],
-            "risk/provisioning impact": [r"\brwa\b", r"\boverstated\b", r"\bprovision\w+\b"],
+        "Explain why instruction datasets typically exclude rejected or incorrect answers during supervised fine-tuning.": {
+            "high-quality correct demonstrations": [r"\bhigh[- ]quality\b", r"\bcorrect\b", r"\bdemonstrat\w*\b", r"\bexclude\b"],
+            "rejected answers harm signal": [r"\breject\w*\b", r"\bconfus\w*\b", r"\bnoise\b", r"\bincorrect\b"],
+            "preference methods named": [r"\bdpo\b", r"\brlhf\b", r"\bpreference\b"],
         },
     }
 
@@ -131,12 +147,22 @@ def evaluate_prompt_accuracy(prompt: str, model_answer: str) -> dict:
     }
 
 
+def _row_prompt(row: dict) -> str:
+    return str(row.get("prompt") or row.get("instruction") or "").strip()
+
+
+def _row_reference(row: dict) -> str:
+    return str(row.get("chosen") or row.get("output") or row.get("completion") or "").strip()
+
+
 def evaluate_instruction_accuracy(dataset_rows: list[dict], model, tokenizer) -> dict:
     """Run semantic concept-based accuracy over a list of instruction rows."""
     per_question = []
     for row in dataset_rows:
-        prompt = row["prompt"]
-        reference = row.get("chosen", "")
+        prompt = _row_prompt(row)
+        if not prompt:
+            continue
+        reference = _row_reference(row)
         answer = generate_model_answer(model, tokenizer, prompt)
         score = evaluate_prompt_accuracy(prompt, answer)
 

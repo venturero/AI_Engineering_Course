@@ -3,7 +3,7 @@ Dry-run benchmark utilities.
 
 What this benchmark measures:
 - Practical instruction-following quality on a small slice (10-20 prompts).
-- Per-prompt diagnostics that highlight missing regulatory concepts.
+- Per-prompt diagnostics that highlight missing expected concepts.
 
 When useful:
 - Fast iteration loop during model improvements.
@@ -24,8 +24,12 @@ def _diagnostic_note(missed_concepts: list[str]) -> str:
     first = missed_concepts[0]
     if "currency" in first:
         return "missed currency distinction"
-    if "risk weight" in first or "sovereign floor" in first:
-        return "missed risk-weight treatment detail"
+    if "attention" in first or "causal" in first or "mask" in first:
+        return "missed attention or autoregression detail"
+    if "pretrain" in first or "fine-tun" in first:
+        return "missed training-stage distinction"
+    if "positional" in first or "embedd" in first:
+        return "missed positional encoding detail"
     if "join" in first or "primary key" in first:
         return "missed data-join integrity concept"
     return f"missed concept: {first}"

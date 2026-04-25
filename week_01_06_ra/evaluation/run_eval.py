@@ -8,8 +8,8 @@ This module provides a production-oriented, explainable and extensible evaluatio
 
 README-style notes:
 - Perplexity alone is insufficient because it measures token prediction confidence,
-  not whether a model follows compliance instructions correctly.
-- Instruction accuracy is essential in domain LLMs because regulatory answers must
+  not whether a model follows task instructions correctly.
+- Instruction accuracy is essential in domain LLMs because answers must
   cover specific concepts even when wording varies.
 - Together, these metrics prepare the model for RAG/agent workflows by validating
   both linguistic stability (perplexity) and task alignment (instruction accuracy).
@@ -35,7 +35,7 @@ except ImportError:
 
 
 def load_instruction_dataset(dataset_path: str | Path) -> list[dict]:
-    """Load prompt/chosen/rejected dataset from JSON list file."""
+    """Load instruction dataset from JSON list (`prompt`/`instruction`, `chosen`/`output`)."""
     path = Path(dataset_path)
     rows = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(rows, list):

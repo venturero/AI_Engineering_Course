@@ -6,7 +6,7 @@ Run (recommended on Windows so TRL can read UTF-8 template files):
 
 The script also re-executes itself with UTF-8 mode when needed (see `_ensure_utf8`).
 
-Use a dataset with `prompt` + `completion` (mapped from `chosen`) so TRL applies
+Use a dataset with `prompt`/`instruction` + `completion` (from `chosen` or `output`) so TRL applies
 completion-only loss. A single `text` column is trained as plain LM (full-sequence
 loss), which dilutes learning on answers.
 
@@ -145,7 +145,7 @@ MODEL_ID = "distilgpt2"
 OUTPUT_DIR = Path(__file__).resolve().parent / "sft-output-distilgpt2"
 # Tiny-data regime: repeat the first (demo) QA pair so the exact instruction→answer mapping is learned.
 # Without this, 10 heterogeneous examples rarely yield correct answers on held prompts for small LMs.
-BASEL_ROW_UPSAMPLE = 24
+DEMO_ROW_UPSAMPLE = 24
 
 
 def build_prompt_completion(example: dict) -> dict:
@@ -155,8 +155,8 @@ def build_prompt_completion(example: dict) -> dict:
     A single `text` column is treated as plain language modeling (full-sequence loss), which trains
     the model to predict the template and instruction tokens too and weakens answer quality.
     """
-    instruction = example["prompt"].strip()
-    answer = str(example.get("chosen") or example.get("completion", "")).strip()
+    instruction = str(example.get("prompt") or example.get("instruction") or "").strip()
+    answer = str(example.get("chosen") or example.get("output") or example.get("completion", "")).strip()
     return {
         "prompt": f"### Instruction:\n{instruction}\n\n### Response:\n",
         "completion": answer,
@@ -187,7 +187,7 @@ def generate_answer(
     context: str | None = None,
 ) -> str:
     """
-    Decodes only new tokens after the prompt. Any line that looks like a question (e.g. “What is the risk…”)
+    Decodes only new tokens after the prompt. Any line that looks like a question (e.g. “What is attention…”)
     is **model-generated text**, not the app “asking” you something — base distilgpt2 was not trained to
     follow Instruction/Response chat templates, so continuations are often irrelevant or repetitive.
     Use repetition controls + a larger instruct-tuned model (or RAG) for sensible answers.
@@ -238,11 +238,12 @@ def _build_rag_vector_store(document_path: str | Path):
 
 
 RAG_OVERRIDE_PATTERNS = (
-    r"\bbasel\b",
-    r"\bcompliance\b",
-    r"\bregulation\b",
-    r"\bregulatory\b",
-    r"\bpolicy\b",
+    r"\btransformer\b",
+    r"\bself-attention\b",
+    r"\battention mechanism\b",
+    r"\bpositional embedd\w*\b",
+    r"\bgenai\b",
+    r"\bgenerative ai\b",
     r"\baccording to\b",
     r"\bunder what conditions\b",
 )
@@ -316,10 +317,10 @@ def main() -> None:
     dataset = load_dataset("json", data_files=str(DATA_PATH), split="train")
     cols = dataset.column_names
     dataset = dataset.map(build_prompt_completion, remove_columns=cols)
-    if len(dataset) > 1 and BASEL_ROW_UPSAMPLE > 1:
+    if len(dataset) > 1 and DEMO_ROW_UPSAMPLE > 1:
         first = dataset.select([0])
         rest = dataset.select(range(1, len(dataset)))
-        dataset = concatenate_datasets([first] * BASEL_ROW_UPSAMPLE + [rest])
+        dataset = concatenate_datasets([first] * DEMO_ROW_UPSAMPLE + [rest])
     print(f"[timing] load dataset: {time.perf_counter() - t:.2f}s", flush=True)
     t = time.perf_counter()
 
@@ -395,7 +396,7 @@ def main() -> None:
 
     # Match Instruction_Style_Dataset.json row 1 exactly (spacing matters for tokenization).
     demo_instruction = (
-        "From a general systems perspective, why might different elements be treated unequally?"
+        "Explain what instruction fine-tuning is and why it is used in large language models."
     )
     questions = [q.strip() for q in CLI_ARGS.question if q and q.strip()]
     if not questions:
